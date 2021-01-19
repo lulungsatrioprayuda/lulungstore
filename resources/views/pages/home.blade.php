@@ -41,54 +41,21 @@
                     </div>
                 </div>
                     <div class="row">
-                        <div class="col-6 col-md-3 col-lg-2" data-aos="fade-up" data-aos-delay="100">
-                            <a href="#" class="component-categories d-block">
+                        @php $incrementCategory = 0 @endphp
+                        @forelse ($categories as $category)
+                    <div class="col-6 col-md-3 col-lg-2" data-aos="fade-up" data-aos-delay="{{ $incrementCategory+=100 }}">
+                    <a href="{{ route('categories-detail', $category->slug) }}" class="component-categories d-block">
                                 <div class="categories-image">
-                                    <img src="/images/categories-gadget.svg" alt="Gadget" class="w-100">
+                                <img src="{{ Storage::url($category->photo)}}" alt="Gadget" class="w-100">
                                 </div>
-                                <p class="categories-text"> Gadget </p>
+                                <p class="categories-text"> {{ $category->name }} </p>
                             </a>
                         </div>
-                        <div class="col-6 col-md-3 col-lg-2" data-aos="fade-up" data-aos-delay="200">
-                            <a href="#" class="component-categories d-block">
-                                <div class="categories-image">
-                                    <img src="/images/categories-furniture.svg" alt="Furniture" class="w-100">
-                                </div>
-                                <p class="categories-text"> Furniture </p>
-                            </a>
-                        </div>
-                        <div class="col-6 col-md-3 col-lg-2" data-aos="fade-up" data-aos-delay="300">
-                            <a href="#" class="component-categories d-block">
-                                <div class="categories-image">
-                                    <img src="/images/categories-makeup.svg" alt="Make Up" class="w-100">
-                                </div>
-                                <p class="categories-text"> Make Up </p>
-                            </a>
-                        </div>
-                        <div class="col-6 col-md-3 col-lg-2" data-aos="fade-up" data-aos-delay="400">
-                            <a href="#" class="component-categories d-block">
-                                <div class="categories-image">
-                                    <img src="/images/categories-sneaker.svg" alt="Sneakers" class="w-100">
-                                </div>
-                                <p class="categories-text"> Sneakers </p>
-                            </a>
-                        </div>
-                        <div class="col-6 col-md-3 col-lg-2" data-aos="fade-up" data-aos-delay="500">
-                            <a href="#" class="component-categories d-block">
-                                <div class="categories-image">
-                                    <img src="/images/categories-tools.svg" alt="Tools" class="w-100">
-                                </div>
-                                    <p class="categories-text"> Tools </p>
-                                </a>
-                        </div>
-                        <div class="col-6 col-md-3 col-lg-2" data-aos="fade-up" data-aos-delay="600">
-                            <a href="#" class="component-categories d-block">
-                            <div class="categories-image">
-                                <img src="/images/categories-baby.svg" alt="Baby" class="w-100">
+                        @empty
+                            <div class="col-12 text-center py-5" data-aos="fade-up" data-aos-delay="100">
+                                Kategori Kosong
                             </div>
-                                <p class="categories-text"> Baby </p>
-                            </a>
-                        </div>
+                        @endforelse
                     </div>
             </div>
         </section>

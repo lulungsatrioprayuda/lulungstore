@@ -21,7 +21,8 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    // public const gunanya untuk default routes seperti di codeigniter 
+    public const HOME = '/';
 
     /**
      * Define your route model bindings, pattern filters, etc.

@@ -42,7 +42,7 @@
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item">Logout</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
-                                    </form>
+                    </form>
                 </div>
                 </li>
                 <li class="nav-item">
@@ -59,7 +59,7 @@
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
-                                    </form>
+                </form>
                 </li>
                 <li class="nav-item">
                 <a href="#" class="nav-link d-inline-block">

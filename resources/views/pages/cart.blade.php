@@ -39,54 +39,30 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                @foreach ($carts as $cart)
+                    <tr>
                   <td>
-                    <img src="/images/product-cart-1.jpg" alt="" class="cart-image w-100">
+                    @if ($cart->product->galleries)
+                        <img src="{{Storage::url($cart->product->galleries->first()->photos)}}" alt="" class="cart-image w-100">
+                    @endif
                   </td>
                   <td style="width: 30%;">
-                    <div class="product-title">Sofa Ternyaman</div>
-                    <div class="product-subtitle">by Lulung Satrio Prayuda</div>
+                    <div class="product-title">{{$cart->product->name}}</div>
+                    <div class="product-subtitle">by {{$cart->product->user->store_name}}</div>
                   </td>
                   <td style="width: 30%;">
-                    <div class="product-title">$29,112</div>
-                    <div class="product-subtitle">USD</div>
+                  <div class="product-title">Rp. {{number_format($cart->product->price)}}</div>
+                    <div class="product-subtitle">Rupiah</div>
                   </td>
                   <td style="width: 20%;">
-                    <a href="#" class="btn btn-remove-cart">Remove</a>
+                  <form action="{{route('cart-delete', $cart->id)}}" method="GET">
+                    @method('DELETE')
+                    @csrf
+                    <button type="submit" class="btn btn-remove-cart">Hapus</button>
+                  </form>
                   </td>
                 </tr>
-                <tr>
-                  <td>
-                    <img src="/images/product-cart-2.jpg" alt="" class="cart-image w-100">
-                  </td>
-                  <td style="width: 30%;">
-                    <div class="product-title">Sepatu Warna Warni</div>
-                    <div class="product-subtitle">by Lulung Satrio Prayuda</div>
-                  </td>
-                  <td style="width: 30%;">
-                    <div class="product-title">$80,309</div>
-                    <div class="product-subtitle">USD</div>
-                  </td>
-                  <td style="width: 20%;">
-                    <a href="#" class="btn btn-remove-cart">Remove</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="/images/product-cart-3.jpg" alt="" class="cart-image w-100">
-                  </td>
-                  <td style="width: 30%;">
-                    <div class="product-title">Lepek Gelas</div>
-                    <div class="product-subtitle">by Lulung Satrio Prayuda</div>
-                  </td>
-                  <td style="width: 30%;">
-                    <div class="product-title">$13,492</div>
-                    <div class="product-subtitle">USD</div>
-                  </td>
-                  <td style="width: 20%;">
-                    <a href="#" class="btn btn-remove-cart">Remove</a>
-                  </td>
-                </tr>
+                @endforeach
               </tbody>
             </table>
           </div>

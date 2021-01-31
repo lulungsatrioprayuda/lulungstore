@@ -39,6 +39,9 @@
                 </tr>
               </thead>
               <tbody>
+                @php
+                    $totalPrice = 0;
+                @endphp
                 @foreach ($carts as $cart)
                     <tr>
                   <td>
@@ -62,6 +65,9 @@
                   </form>
                   </td>
                 </tr>
+                @php
+                    $totalPrice += $cart->product->price;
+                @endphp
                 @endforeach
               </tbody>
             </table>
@@ -75,39 +81,42 @@
             <h2 class="mb-4">Shipping Details</h2>
           </div>
         </div>
-        <div class="row mb-2" data-aos="fade-up" data-aos-delay="200">
+      <form action="" method="post" id="locations">
+              <div class="row mb-2" data-aos="fade-up" data-aos-delay="200">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="addressOne">Address 1</label>
-              <input type="text" id="addressOne" name="addressOne" value="Setra Duta Semara" class="form-control">
+              <label for="address_one">Alamat 1</label>
+              <input type="text" id="address_one" name="address_one" value="Setra Duta Semara" class="form-control">
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="addressTwo">Address 2</label>
-              <input type="text" id="addressTwo" name="addressTwo" value="Jalan sumatra" class="form-control">
+              <label for="address_two">Alamat 2</label>
+              <input type="text" id="address_two" name="address_two" value="Jalan sumatra" class="form-control">
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <label for="province">City</label>
-              <select name="province" id="province" class="form-control">
-                <option value="Jawa Timur">Jawa Timur</option>
+              <label for="provinces_id">Provinsi</label>
+              <select name="provinces_id" id="provinces_id" class="form-control" v-if="provinces" v-model="provinces_id">
+              <option v-for="province in provinces" :value="province.id">@{{province.name}}</option>
               </select>
+              <select v-else class="form-control"></select>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <label for="city">City</label>
-              <select name="city" id="city" class="form-control">
-                <option value="Jawa Timur">Jawa Timur</option>
+              <label for="regencies_id">Kota</label>
+              <select name="regencies_id" id="regencies_id" class="form-control" v-if="regencies" v-model="regencies_id">
+              <option v-for="regency in regencies" :value="regency.id">@{{regency.name}}</option>
               </select>
+              <select v-else class="form-control"></select>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <label for="postalCode">Postal Code</label>
-              <input type="text" id="postalCode" name="postalCode" value="98312" class="form-control">
+              <label for="zip_code">Kode Post</label>
+              <input type="text" id="zip_code" name="zip_code" value="98312" class="form-control">
             </div>
           </div>
           <div class="col-md-6">
@@ -118,8 +127,8 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="moblie">Mobile</label>
-              <input type="text" id="moblie" name="moblie" value="+628 2020 11111" class="form-control">
+              <label for="phone_number">Mobile</label>
+              <input type="text" id="phone_number" name="phone_number" value="+628 2020 11111" class="form-control">
             </div>
           </div>
         </div>
@@ -133,19 +142,19 @@
         </div>
         <div class="row" data-aos="fade-up" data-aos-delay="200">
           <div class="col-4 col-md-2">
-            <div class="product-title">$10</div>
+            <div class="product-title">Rp. 0</div>
             <div class="product-subtitle">Country Tax</div>
           </div>
           <div class="col-4 col-md-3">
-            <div class="product-title">$280</div>
+            <div class="product-title">Rp. 0</div>
             <div class="product-subtitle">Product Insurance</div>
           </div>
           <div class="col-4 col-md-2">
-            <div class="product-title">$580</div>
+            <div class="product-title">Rp. 0</div>
             <div class="product-subtitle">Ship to Jakarta</div>
           </div>
           <div class="col-4 col-md-2">
-            <div class="product-title text-success">$392,409</div>
+            <div class="product-title text-success">Rp. {{number_format($totalPrice ?? 0)}}</div>
             <div class="product-subtitle">Total</div>
           </div>
           <div class="col-8 col-md-3">
@@ -154,7 +163,51 @@
             </a>
           </div>
         </div>
+      </form>
       </div>
     </section>
   </div>
 @endsection
+
+    @push('addon-script')
+    <script src="/vendor/vue/vue.js"></script>
+    <script src="https://unpkg.com/vue-toasted"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      var locations = new Vue({
+        el: "#locations",
+        mounted() {
+          AOS.init();
+          this.getProvincesData();
+        },
+        data: {
+          provinces: null,
+          regencies: null,
+          provinces_id: null,
+          regencies_id: null,
+        },
+        methods: {
+          getProvincesData() {
+            var self = this;
+            axios.get('{{ route('api-provinces') }}')
+              .then(function (response) {
+                  self.provinces = response.data;
+              })
+          },
+          getRegenciesData() {
+            var self = this;
+            axios.get('{{ url('api/regencies') }}/' + self.provinces_id)
+              .then(function (response) {
+                  self.regencies = response.data;
+              })
+          },
+        },
+        watch: {
+          provinces_id: function (val, oldVal) {
+            this.regencies_id = null;
+            this.getRegenciesData();
+          },
+        }
+      });
+    </script>
+@endpush

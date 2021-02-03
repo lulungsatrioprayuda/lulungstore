@@ -36,14 +36,15 @@
                     Hi, {{Auth::user()->name}}
                 </a>
                 <div class="dropdown-menu">
-                <a  class="nav-link" class="dropdown-item">Dashboard</a>
+                <a  class="nav-link"  href="{{route('dashboard')}}" class="dropdown-item">Dashboard</a>
                     <a href="{{route('dashboard-settings-account')}}" class="dropdown-item" >Settings</a>
                     <div class="dropdown-divider"></div>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item">Logout</a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    
+                </div>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                     </form>
-                </div>
                 </li>
                 <li class="nav-item">
                 <a href="{{route('cart')}}" class="nav-link d-inline-block mt-2">
@@ -62,7 +63,7 @@
 
             <ul class="navbar-nav d-block d-lg-none">
                 <li class="nav-item">
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
+                <a href="#" class="nav-link">
                     Hi, {{ Auth::user()->name }}
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -70,9 +71,14 @@
                 </form>
                 </li>
                 <li class="nav-item">
-                <a href="{{route('cart')}}" class="nav-link d-inline-block">
-                    Cart
-                </a>
+                    <a href="{{route('cart')}}" class="nav-link d-inline-block">
+                        Cart
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link d-inline-block">
+                        Logout
+                    </a>
                 </li>
             </ul>
                 @endauth

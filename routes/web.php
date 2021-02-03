@@ -26,35 +26,46 @@ Route::get('/laravel', function () {
 });
 
 Route::get('/', 'HomeController@index')->name('home');
+
 Route::get('/categories', 'CategoryController@index')->name('categories');
 Route::get('/categories/{id}', 'CategoryController@detail')->name('categories-detail');
+
 Route::get('/details/{id}', 'DetailController@index')->name('detail');
 Route::post('/details/{id}', 'DetailController@add')->name('detail-add');
-Route::get('/cart', 'CartController@index')->name('cart');
-Route::get('/cart/{id}', 'CartController@delete')->name('cart-delete');
 
-Route::post('/checkout', 'CheckoutController@process')->name('checkout');
+
+
+
 Route::post('/checkout/callback', 'CheckoutController@callback')->name('midtrans-callback');
 
 Route::get('/success', 'CartController@success')->name('success');
 
 Route::get('/register/success', 'Auth\RegisterController@success')->name('register-success');
 
-Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
-Route::get('/dashboard/products', 'DashboardProductController@index')->name('dashboard-product');
-Route::get('/dashboard/create', 'DashboardProductController@create')->name('dashboard-product-create');
-Route::get('/dashboard/products/{id}', 'DashboardProductController@details')->name('dashboard-product-details');
 
-Route::get('/dashboard/transactions', 'DashboardTransactionController@index')->name('dashboard-transaction');
-Route::get('/dashboard/transactions/{id}', 'DashboardTransactionController@details')->name('dashboard-transaction-details');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/cart', 'CartController@index')->name('cart');
+    Route::get('/cart/{id}', 'CartController@delete')->name('cart-delete');
+    Route::post('/checkout', 'CheckoutController@process')->name('checkout');
 
-Route::get('/dashboard/settings', 'DashboardSettingController@store')->name('dashboard-settings-store');
-Route::get('/dashboard/account', 'DashboardSettingController@account')->name('dashboard-settings-account');
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+
+    Route::get('/dashboard/products', 'DashboardProductController@index')->name('dashboard-product');
+    Route::get('/dashboard/create', 'DashboardProductController@create')->name('dashboard-product-create');
+    Route::get('/dashboard/products/{id}', 'DashboardProductController@details')->name('dashboard-product-details');
+
+    Route::get('/dashboard/transactions', 'DashboardTransactionController@index')->name('dashboard-transaction');
+    Route::get('/dashboard/transactions/{id}', 'DashboardTransactionController@details')->name('dashboard-transaction-details');
+
+    Route::get('/dashboard/settings', 'DashboardSettingController@store')->name('dashboard-settings-store');
+    Route::get('/dashboard/account', 'DashboardSettingController@account')->name('dashboard-settings-account');
+});
 
 //     ->middleware(['auth', 'admin'])
 Route::prefix('admin')
     ->namespace('Admin')
+    ->middleware(['auth', 'admin'])
     ->group(function () {
         Route::get('/', 'DashboardController@index')->name('admin-dashboard');
         Route::resource('category', 'CategoryController');

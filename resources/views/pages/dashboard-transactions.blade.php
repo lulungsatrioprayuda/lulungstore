@@ -34,113 +34,54 @@
                   <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                       aria-labelledby="pills-home-tab">
-                      <a href="/dashboard-transaction-details.html" class="card card-list d-block">
+                    @foreach ($sellTransactions as $transaction)
+                      <a href="{{route('dashboard-transaction-details', $transaction->id)}}" class="card card-list d-block">
                         <div class="card-body">
                           <div class="row">
                             <div class="col-md-1">
-                              <img src="/images/dashboard-icon-product-1.png" alt="">
+                              <img src="{{Storage::url($transaction->product->galleries->first()->photos ?? '')}}" class="w-50">
                             </div>
                             <div class="col-md-4">
-                              Jasjus Kopi
+                              {{$transaction->product->name}}
                             </div>
                             <div class="col-md-3">
-                              Lulung Satrio Prayuda
+                              {{$transaction->product->user->store_name}}
                             </div>
                             <div class="col-md-3">
-                              12 Januari, 2020
+                              {{$transaction->created_at}}
                             </div>
                             <div class="col-md-1 d-none d-md-block">
                               <img src="/images/dashboard-arrow-right.svg" alt="">
                             </div>
                           </div>
                         </div>
-                      </a>
-                      <a href="/dashboard-transaction-details.html" class="card card-list d-block">
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="col-md-1">
-                              <img src="/images/dashboard-icon-product-2.png" alt="">
-                            </div>
-                            <div class="col-md-4">
-                              Sepatu Lari
-                            </div>
-                            <div class="col-md-3">
-                              Lulung Satrio Prayuda
-                            </div>
-                            <div class="col-md-3">
-                              11 Januari, 2020
-                            </div>
-                            <div class="col-md-1 d-none d-md-block">
-                              <img src="/images/dashboard-arrow-right.svg" alt="">
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                      <a href="/dashboard-transaction-details.html" class="card card-list d-block">
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="col-md-1">
-                              <img src="/images/dashboard-icon-product-3.png" alt="">
-                            </div>
-                            <div class="col-md-4">
-                              Bantal Empuk
-                            </div>
-                            <div class="col-md-3">
-                              Lulung Satrio Prayuda
-                            </div>
-                            <div class="col-md-3">
-                              10 Januari, 2020
-                            </div>
-                            <div class="col-md-1 d-none d-md-block">
-                              <img src="/images/dashboard-arrow-right.svg" alt="">
-                            </div>
-                          </div>
-                        </div>
-                      </a>
+                      </a> 
+                    @endforeach
                     </div>
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                      <a href="/dashboard-transaction-details.html" class="card card-list d-block">
+                    @foreach ($buyTransactions as $transaction)
+                      <a href="{{route('dashboard-transaction-details', $transaction->id)}}" class="card card-list d-block">
                         <div class="card-body">
                           <div class="row">
                             <div class="col-md-1">
-                              <img src="/images/dashboard-icon-product-1.png" alt="">
+                              <img src="{{Storage::url($transaction->product->galleries->first()->photos ?? '')}}" class="w-50">
                             </div>
                             <div class="col-md-4">
-                              Jasjus Kopi
+                              {{$transaction->product->name}}
                             </div>
                             <div class="col-md-3">
-                              Lulung Satrio Prayuda
+                              {{$transaction->product->user->store_name}}
                             </div>
                             <div class="col-md-3">
-                              12 Januari, 2020
+                              {{$transaction->created_at}}
                             </div>
                             <div class="col-md-1 d-none d-md-block">
                               <img src="/images/dashboard-arrow-right.svg" alt="">
                             </div>
                           </div>
                         </div>
-                      </a>
-                      <a href="/dashboard-transaction-details.html" class="card card-list d-block">
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="col-md-1">
-                              <img src="/images/dashboard-icon-product-2.png" alt="">
-                            </div>
-                            <div class="col-md-4">
-                              Sepatu Lari
-                            </div>
-                            <div class="col-md-3">
-                              Lulung Satrio Prayuda
-                            </div>
-                            <div class="col-md-3">
-                              11 Januari, 2020
-                            </div>
-                            <div class="col-md-1 d-none d-md-block">
-                              <img src="/images/dashboard-arrow-right.svg" alt="">
-                            </div>
-                          </div>
-                        </div>
-                      </a>
+                      </a> 
+                    @endforeach
                     </div>
                   </div>
                   <!-- penutupan dari nav pills -->

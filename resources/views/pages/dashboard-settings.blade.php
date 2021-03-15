@@ -18,22 +18,26 @@
             <div class="dashboard-content">
               <div class="row">
                 <div class="col-12">
-                  <form action="">
+                <form action="{{route('dashboard-settings-redirect', 'dashboard-settings-store')}}" method="POST" enctype="multipart/form-data">
+                  @csrf
                     <div class="card">
                       <div class="card-body">
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="">Nama Toko</label>
-                              <input type="text" name="" class="form-control" v-model="name" autofocus />
+                              <input type="text" name="store_name" class="form-control" value="{{$user->store_name}}" v-model="name" autofocus />
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="">Kategori</label>
-                              <select name="category" class="form-control" id="">
-                                <option value="" disabled>Select Category</option>
-                              </select>
+                              <select name="categories_id" class="form-control">
+                                <option value="{{$user->categories_id}}">Tidak diganti</option>
+                                    @foreach ( $categories as $category)
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -41,13 +45,12 @@
                               <label for="">Store</label>
                               <p class="text-muted">Apakah anda juga ingin membuka toko?</p>
                               <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" name="is_store_open" id="openStoreTrue" class="custom-control-input"
-                                  value="true">
+                                <input type="radio" name="store_status" id="openStoreTrue" class="custom-control-input" value="1" {{$user->store_status == 1 ? 'checked' : ''}}>
                                 <label for="openStoreTrue" class="custom-control-label">Buka Toko</label>
                               </div>
                               <div class="custom-control custom-radio custom-control-inline">
                                 <input type="radio" name="is_store_open" id="openStoreFalse"
-                                  class="custom-control-input" value="false">
+                                  class="custom-control-input" value="0" {{$user->store_status == 0 || $user->store_status == NULL ? 'checked' : ''}}>
                                 <label for="openStoreFalse" class="custom-control-label">Tutup Sementara</label>
                               </div>
                             </div>
